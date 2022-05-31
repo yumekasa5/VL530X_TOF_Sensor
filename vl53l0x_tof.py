@@ -1,23 +1,21 @@
 #!/usr/bin/env python
-#-*- coding utf-8 -*-
+# -*- coding: utf-8 -*-
 
-import time
-import VL53L0X
+import time             #time(sleepを使うためのモジュール)のインポート
+import VL53L0X          #VL53L0X(spi通信を行うためのモジュール)のインポート
 
+"""メイン関数"""
 if __name__ == '__main__':
-    
-    #VL530Xのインスタンス生成
+    """VL53L0Xのインスタンスを作成"""
     tof = VL53L0X.VL53L0X(address=0x29)
 
     #距離の取得を開始する
-    tof.start_ranging(VL53L0X.VL530X_BETTER_ACCURACY_MODE)
+    tof.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
 
     try:
         while True:
-            #距離[cm]を取得する
-            dist = tof.distance()/float(10)
-            #距離[cm]の表示
-            print('%0.1f cm' % dist)
+            dist = tof.get_distance()/float(10)   #VL53L0Xから距離[cm]を取得する
+            print ("%0.1f cm " % dist)     #距離[cm]を表示する
             time.sleep(1)               #1[s]スリープする
     except KeyboardInterrupt  :         #Ctl+Cが押されたらループを終了
         print("\nCtl+C")
